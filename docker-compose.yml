@@ -1,0 +1,70 @@
+version: '3'
+services:
+  mc:
+    image: itzg/minecraft-server
+    ports:
+      - "25565:25565"  # Java Edition
+      - "19132:19132/udp"  # Bedrock Edition
+    environment:
+      EULA: "TRUE"
+      TYPE: ${MINECRAFT_TYPE}
+      VERSION: ${MINECRAFT_VERSION}
+      PAPERBUILD: 123
+      CUSTOM_SERVER: https://api.papermc.io/v2/projects/paper/versions/1.21/builds/123/downloads/paper-1.21-123.jar
+      FORCE_REDOWNLOAD: "false"
+      PLUGINS: |
+        https://github.com/ViaVersion/ViaVersion/releases/download/5.0.2/ViaVersion-5.0.2.jar
+        https://github.com/ViaVersion/ViaBackwards/releases/download/5.0.2/ViaBackwards-5.0.2.jar
+        https://github.com/ViaVersion/ViaRewind/releases/download/4.0.2/ViaRewind-4.0.2.jar
+        https://download.geysermc.org/v2/projects/geyser/versions/latest/builds/latest/downloads/spigot
+        https://download.geysermc.org/v2/projects/floodgate/versions/latest/builds/latest/downloads/spigot
+      ENABLE_RCON: "true"
+      RCON_PASSWORD: ${MINECRAFT_RCON_PASSWORD}
+      ONLINE_MODE: "FALSE"
+      SERVER_NAME: ${MINECRAFT_SERVER_NAME}
+      DIFFICULTY: ${MINECRAFT_DIFFICULTY}
+      ALLOW_NETHER: "true"
+      ENABLE_COMMAND_BLOCK: "true"
+      MAX_PLAYERS: ${MINECRAFT_MAX_PLAYERS}
+      MOTD: ${MINECRAFT_MOTD}
+      SERVER_PORT: 25565
+      SPAWN_PROTECTION: 16
+      VIEW_DISTANCE: 10
+      MODE: survival
+      PVP: "true"
+      LEVEL_TYPE: default
+      SPAWN_ANIMALS: "true"
+      SPAWN_MONSTERS: "true"
+      SPAWN_NPCS: "true"
+      GENERATE_STRUCTURES: "true"
+      ALLOW_FLIGHT: "false"
+      LEVEL_SEED: ""
+      ENFORCE_WHITELIST: "false"
+      OPS: ${MINECRAFT_OPS}
+      MEMORY: 5G
+    tty: true
+    stdin_open: true
+    restart: unless-stopped
+    volumes:
+      - ./server:/data
+
+  mc-backup:
+    image: itzg/mc-backup
+    environment:
+      RCON_HOST: mc
+      RCON_PASSWORD: ${MINECRAFT_RCON_PASSWORD}
+      BACKUP_INTERVAL: ${BACKUP_INTERVAL}
+      PRUNE_BACKUPS_DAYS: ${BACKUP_RETENTION_DAYS}
+    volumes:
+      - ./server:/data:ro
+      - ./backups:/backups
+    depends_on:
+      - mc
+
+volumes:
+  server:
+  backups:
+
+networks:
+  default:
+    driver: bridge
