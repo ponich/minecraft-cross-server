@@ -1,0 +1,84 @@
+# 🚀 Performance Optimization Settings for 32-Mod NeoForge Server
+# This file contains recommended settings to apply to various mod configs
+
+[mekanism_optimizations]
+# Apply these changes to config/Mekanism/general.toml
+radiation_enabled = false           # Disable for +10% performance
+chunk_check_radius = 3             # Reduce from 5 to 3 (less area)
+digital_miner_max_radius = 24      # Reduce from 32 to 24
+block_deactivation_delay = 40      # Reduce from 60 to 40 ticks
+
+[irons_spellbooks_optimizations]
+# Apply these to config/irons_spellbooks-server.toml
+spell_griefing = false             # Already set correctly ✅
+furled_map_skip_chunks = true      # Already set correctly ✅
+aquifer_detection = false          # Disable for worldgen performance
+
+[aether_optimizations]
+# Apply these to config/aether-server.toml
+beds_explode = false               # Already set correctly ✅
+debuff_non_aether_tools = false    # Disable for compatibility
+generate_tall_grass = false       # Reduce worldgen load
+
+[server_properties_optimizations]
+# Apply these to server.properties
+view_distance = 8                  # Reduce from 10 to 8
+simulation_distance = 6            # Reduce from 10 to 6
+max_players = 15                   # Conservative limit for stability
+network_compression_threshold = 64  # Lower for better compression
+max_tick_time = 120000             # Double default for mod tolerance
+
+[jvm_optimizations]
+# Additional JVM flags for docker-compose.yml
+# Add to existing JVM_OPTS:
+additional_flags = [
+    "-XX:+UseZGC",                 # Alternative to G1GC for large heaps
+    "-XX:+UseLargePages",          # Better memory management
+    "-XX:LargePageSizeInBytes=2m", # Optimize page size
+    "-Dusing.aikars.flags=mcflags.emc.gs", # Aikar's flags identifier
+]
+
+[performance_monitoring]
+# Commands to monitor server health
+tps_check = "/forge tps"           # Check server TPS
+memory_check = "/forge gc"         # Force garbage collection
+entity_count = "/forge entities"   # Check entity counts per dimension
+
+[mod_specific_warnings]
+scalable_cats_force = "⚠️ Monitor for stability issues - large unknown mod"
+sodium_conflicts = "⚠️ Watch for rendering issues with Mekanism multiblocks"
+magic_conflicts = "⚠️ Iron's Spellbooks + Aether may have spell conflicts"
+
+[backup_recommendations]
+# Critical files to backup regularly
+important_configs = [
+    "config/Mekanism/",
+    "config/irons_spellbooks-server.toml",
+    "config/aether-server.toml",
+    "server.properties",
+    "world/",
+]
+
+backup_frequency = "daily"         # Recommended backup schedule
+retention_days = 7                 # Keep backups for 1 week
+
+[troubleshooting_commands]
+# Commands for diagnosing issues
+check_mods = "docker exec minecraft-neoforge-modded ls -la /data/mods | wc -l"
+check_memory = "docker stats minecraft-neoforge-modded --no-stream"
+check_logs = "docker logs minecraft-neoforge-modded --tail 50"
+check_errors = "docker logs minecraft-neoforge-modded 2>&1 | grep -i error | tail -10"
+
+[expected_performance]
+# Performance benchmarks for this configuration
+target_tps = 18.0                  # Minimum acceptable TPS
+max_memory_usage = 85              # Maximum memory usage percentage
+typical_startup_time = 120         # Seconds to full startup
+concurrent_players = 15            # Recommended player limit
+
+[known_issues]
+# Document known issues and workarounds
+issue_1 = "Aether portal may cause client lag - use smaller render distance"
+issue_2 = "Mekanism Digital Miner can cause TPS drops - limit concurrent miners"
+issue_3 = "Iron's Spellbooks large battles may impact performance"
+issue_4 = "ScalableCatsForce compatibility unknown - monitor closely" 

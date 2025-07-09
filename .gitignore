@@ -25,10 +25,6 @@ logs/
 crash-reports/
 debug/
 
-# Auto-generated mod configurations
-config/
-!config/.gitkeep
-
 # Server state files
 server.properties.backup
 eula.txt.backup
