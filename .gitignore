@@ -16,7 +16,6 @@
 
 # Minecraft Server Files
 # Do not track mods - they are large binary files
-mods/
 *.jar
 
 # Server runtime data
