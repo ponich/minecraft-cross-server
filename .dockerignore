@@ -1,0 +1,22 @@
+# Docker ignore for Minecraft server
+world/
+logs/
+*.log
+.git/
+.gitignore
+README.md
+todo.md
+*.tmp
+*.bak
+crash-reports/
+debug/
+screenshots/
+saves/
+server-icon.png
+whitelist.json
+banned-*.json
+ops.json
+usercache.json
+usernamecache.json
+*.DS_Store
+Thumbs.db 

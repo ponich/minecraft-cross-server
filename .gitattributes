@@ -1,0 +1,48 @@
+# Git attributes for Minecraft Server Project
+
+# Text files - normalize line endings
+*.txt text eol=lf
+*.md text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.json text eol=lf
+*.properties text eol=lf
+*.sh text eol=lf
+*.dockerfile text eol=lf
+Dockerfile text eol=lf
+docker-compose.yml text eol=lf
+
+# Binary files - do not attempt text conversion
+*.jar binary
+*.zip binary
+*.gz binary
+*.tar binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
+
+# Archives
+*.7z binary
+*.rar binary
+
+# Minecraft specific binary files
+*.mcr binary
+*.mca binary
+*.dat binary
+*.dat_old binary
+*.schematic binary
+*.nbt binary
+
+# Exclude from export (GitHub archives)
+.gitignore export-ignore
+.gitattributes export-ignore
+.dockerignore export-ignore
+.github/ export-ignore
+
+# Language detection for GitHub
+*.properties linguist-language=INI
+*.yml linguist-language=YAML
+*.yaml linguist-language=YAML 

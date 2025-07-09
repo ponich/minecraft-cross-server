@@ -1,0 +1,66 @@
+# Docker Compose configuration for NeoForge Minecraft Server
+
+services:
+  minecraft-server:
+    build: .
+    container_name: minecraft-neoforge-modded
+    restart: unless-stopped
+    ports:
+      - "25565:25565"
+    environment:
+      - EULA=TRUE
+      - TYPE=NEOFORGE
+      - VERSION=1.21.1
+      - NEOFORGE_VERSION=21.1.169
+      - MEMORY=4G
+      - MAX_MEMORY=6G
+      - INIT_MEMORY=2G
+      - JVM_OPTS=-XX:+UseG1GC -XX:+ParallelRefProcEnabled -XX:MaxGCPauseMillis=200 -XX:+UnlockExperimentalVMOptions -XX:+DisableExplicitGC -XX:+AlwaysPreTouch -XX:G1NewSizePercent=30 -XX:G1MaxNewSizePercent=40 -XX:G1HeapRegionSize=8M -XX:G1ReservePercent=20 -XX:G1HeapWastePercent=5 -XX:G1MixedGCCountTarget=4 -XX:InitiatingHeapOccupancyPercent=15 -XX:G1MixedGCLiveThresholdPercent=90 -XX:G1RSetUpdatingPauseTimePercent=5 -XX:SurvivorRatio=32 -XX:+PerfDisableSharedMem -XX:MaxTenuringThreshold=1
+      - ONLINE_MODE=TRUE
+      - SERVER_NAME=Modded NeoForge Server
+      - MOTD=Minecraft Server with 32 amazing mods!
+      - DIFFICULTY=normal
+      - MAX_PLAYERS=20
+      - VIEW_DISTANCE=10
+      - SIMULATION_DISTANCE=10
+      - SPAWN_PROTECTION=16
+      - PVP=true
+      - ENFORCE_WHITELIST=false
+      - LEVEL_TYPE=minecraft:normal
+      - SEED=
+      - GENERATE_STRUCTURES=true
+      - ALLOW_NETHER=true
+      - ALLOW_FLIGHT=false
+      - ENABLE_COMMAND_BLOCK=false
+      - ENABLE_QUERY=false
+      - ENABLE_RCON=false
+      - FORCE_GAMEMODE=false
+      - HARDCORE=false
+      - LEVEL_NAME=world
+      - MAX_BUILD_HEIGHT=256
+      - MAX_WORLD_SIZE=29999984
+      - SNOOPER_ENABLED=true
+      - USE_NATIVE_TRANSPORT=true
+      - DEBUG=false
+    volumes:
+      - ./mods:/data/mods:ro
+      - ./config:/data/config
+      - ./world:/data/world
+      - ./logs:/data/logs
+      - minecraft-data:/data
+    networks:
+      - minecraft-network
+    healthcheck:
+      test: ["CMD", "mc-health"]
+      start_period: 5m
+      interval: 5s
+      retries: 3
+      timeout: 10s
+
+networks:
+  minecraft-network:
+    driver: bridge
+
+volumes:
+  minecraft-data:
+    driver: local 
