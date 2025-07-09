@@ -60,22 +60,8 @@ The server includes 32 mods across different categories:
 - **At least 6GB RAM** available for the server
 - **Port 25565** available
 
-### 1. Clone and Setup Mods
-```bash
-# Navigate to project directory
-cd repo
 
-# ⚠️ IMPORTANT: Add mods (not tracked in Git)
-# Copy 32 mod files to mods/ directory
-cp "../моды на сервер"/*.jar mods/
-
-# Verify all mods are present
-ls mods/*.jar | wc -l  # Should be 32
-
-# See MODS_SETUP.md for detailed instructions
-```
-
-### 2. Build and Start
+### 1. Build and Start
 ```bash
 # Build the server image
 docker-compose build
