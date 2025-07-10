@@ -34,7 +34,8 @@ services:
       - ALLOW_FLIGHT=false
       - ENABLE_COMMAND_BLOCK=false
       - ENABLE_QUERY=false
-      - ENABLE_RCON=false
+      - ENABLE_RCON=true
+      - RCON_PASSWORD=${MINECRAFT_RCON_PASSWORD:-minecraft_backup_2024}
       - FORCE_GAMEMODE=false
       - HARDCORE=false
       - LEVEL_NAME=world
@@ -57,6 +58,68 @@ services:
       interval: 5s
       retries: 3
       timeout: 10s
+
+  # Automatic backup service - runs twice daily
+  backup:
+    image: itzg/mc-backup:latest
+    container_name: minecraft-backup
+    restart: unless-stopped
+    environment:
+      # Backup schedule: twice daily at 06:00 and 18:00
+      - BACKUP_INTERVAL=12h
+      - INITIAL_DELAY=10m
+      
+      # Server connection
+      - RCON_HOST=minecraft-server
+      - RCON_PORT=25575
+      - RCON_PASSWORD=${MINECRAFT_RCON_PASSWORD:-minecraft_backup_2024}
+      
+      # Backup settings
+      - BACKUP_METHOD=tar
+      - TAR_COMPRESS_METHOD=gzip
+      - BACKUP_NAME=minecraft-backup
+      - KEEP_BACKUPS=14
+      - EXCLUDES=*.tmp,cache
+      
+      # Advanced settings
+      - PAUSE_IF_NO_PLAYERS=false
+      - BACKUP_FETCH_DEST_FILE=/data/world
+      - TZ=Europe/Moscow
+    volumes:
+      # Source data to backup
+      - ./world:/data/world:ro
+      - ./config:/data/config:ro
+      
+      # Backup destination
+      - ./backups:/backups
+    networks:
+      - minecraft-network
+    depends_on:
+      minecraft-server:
+        condition: service_healthy
+
+  # RCON Web Admin Interface
+  rcon-web:
+    image: itzg/rcon:latest
+    container_name: minecraft-rcon-web
+    restart: unless-stopped
+    ports:
+      - "4326:4326"
+      - "4327:4327"
+    environment:
+      # Web admin credentials
+      - RWA_USERNAME=admin
+      - RWA_PASSWORD=${MINECRAFT_WEB_ADMIN_PASSWORD:-admin_change_me}
+      - RWA_ADMIN=TRUE
+      
+      # RCON server connection
+      - RWA_RCON_HOST=minecraft-server
+      - RWA_RCON_PASSWORD=${MINECRAFT_RCON_PASSWORD:-minecraft_backup_2024}
+    networks:
+      - minecraft-network
+    depends_on:
+      minecraft-server:
+        condition: service_healthy
 
 networks:
   minecraft-network:

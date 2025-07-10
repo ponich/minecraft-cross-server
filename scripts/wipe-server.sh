@@ -5,8 +5,44 @@
 # - Stop the running server container
 # - Clean the world directory
 # - Set proper permissions (777) on world, config, and logs directories
+#
+# Usage:
+#   ./wipe-server.sh           # Interactive mode (asks for confirmation)
+#   ./wipe-server.sh --force   # Force mode (no questions)
+#   ./wipe-server.sh --yes     # Auto-confirm mode (no questions)
 
 set -e
+
+# Parse command line arguments
+FORCE_MODE=false
+AUTO_CLEAN_LOGS=false
+
+for arg in "$@"; do
+    case $arg in
+        --force|--yes|-f|-y)
+            FORCE_MODE=true
+            AUTO_CLEAN_LOGS=true
+            ;;
+        --no-logs)
+            AUTO_CLEAN_LOGS=false
+            ;;
+        --help|-h)
+            echo "Usage: $0 [OPTIONS]"
+            echo ""
+            echo "Options:"
+            echo "  --force, --yes, -f, -y    Skip all confirmations"
+            echo "  --no-logs                 Don't clean logs (only with --force)"
+            echo "  --help, -h                Show this help"
+            echo ""
+            exit 0
+            ;;
+        *)
+            echo "Unknown option: $arg"
+            echo "Use --help for usage information"
+            exit 1
+            ;;
+    esac
+done
 
 # Colors for output
 RED='\033[0;31m'
@@ -36,20 +72,23 @@ print_error() {
 }
 
 # Confirmation prompt
-echo -e "${RED}WARNING: This will completely wipe your Minecraft world!${NC}"
-echo "This action will:"
-echo "  - Stop the running server"
-echo "  - Delete ALL world data (world/, world_nether/, world_the_end/)"
-echo "  - Reset permissions on world, config, and logs directories"
-echo ""
-read -p "Are you sure you want to continue? (type 'YES' to confirm): " confirm
+if [ "$FORCE_MODE" = false ]; then
+    echo -e "${RED}WARNING: This will completely wipe your Minecraft world!${NC}"
+    echo "This action will:"
+    echo "  - Stop the running server"
+    echo "  - Delete ALL world data (world/, world_nether/, world_the_end/)"
+    echo "  - Reset permissions on world, config, and logs directories"
+    echo ""
+    read -p "Are you sure you want to continue? (type 'YES' to confirm): " confirm
 
-if [ "$confirm" != "YES" ]; then
-    print_warning "Wipe cancelled by user"
-    exit 0
+    if [ "$confirm" != "YES" ]; then
+        print_warning "Wipe cancelled by user"
+        exit 0
+    fi
+    echo ""
+else
+    print_status "Running in force mode - skipping confirmation"
 fi
-
-echo ""
 
 # Check if we're in the right directory
 if [ ! -f "$PROJECT_DIR/docker-compose.yml" ]; then
@@ -130,9 +169,15 @@ if [ -d "server/world_the_end" ]; then
 fi
 
 # Optional: Clean logs
-echo ""
-read -p "Do you want to clean server logs as well? (y/N): " clean_logs
-if [[ $clean_logs =~ ^[Yy]$ ]]; then
+if [ "$FORCE_MODE" = false ]; then
+    echo ""
+    read -p "Do you want to clean server logs as well? (y/N): " clean_logs
+    if [[ $clean_logs =~ ^[Yy]$ ]]; then
+        AUTO_CLEAN_LOGS=true
+    fi
+fi
+
+if [ "$AUTO_CLEAN_LOGS" = true ]; then
     if [ -d "logs" ]; then
         rm -rf logs/*.log logs/*.log.gz 2>/dev/null || true
         print_status "Cleaned log files"

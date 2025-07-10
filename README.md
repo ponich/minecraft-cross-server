@@ -178,18 +178,61 @@ docker-compose up -d
 
 ### Server Wipe
 ```bash
-# Complete server wipe (DANGEROUS!)
+# Interactive mode (asks for confirmation)
 ./scripts/wipe-server.sh
 
-# What it does:
-# - Stops the running server container
-# - Deletes ALL world data (world/, world_nether/, world_the_end/)
-# - Cleans server-side world directories
-# - Sets proper permissions (777) on world, config, logs directories
-# - Optional: Clean server logs
+# Force mode (no questions, cleans logs automatically)
+./scripts/wipe-server.sh --force
+./scripts/wipe-server.sh --yes
+./scripts/wipe-server.sh -f
+
+# Force mode but keep logs
+./scripts/wipe-server.sh --force --no-logs
+
+# Show help
+./scripts/wipe-server.sh --help
 ```
 
+**What it does:**
+- Stops the running server container
+- Deletes ALL world data (world/, world_nether/, world_the_end/)
+- Cleans server-side world directories
+- Sets proper permissions (777) on world, config, logs directories
+- Optional: Clean server logs (interactive) or automatic (force mode)
+
 **⚠️ Warning**: The wipe script will completely destroy your world! Always backup before running.
+
+### Automatic Backups
+```bash
+# Start backup service (included in docker-compose)
+docker-compose up -d backup
+
+# Manual backup trigger
+docker-compose exec backup backup now
+
+# Check backup logs
+docker-compose logs backup
+```
+
+**Backup Features:**
+- **Automatic schedule**: Every 12 hours (06:00 and 18:00)
+- **Safe coordination**: Uses RCON to pause server during backup
+- **Retention**: Keeps backups for 14 days (configurable)
+- **Compression**: tar.gz format for space efficiency
+- **Location**: `./backups/` directory
+
+### RCON Web Admin
+Access the web-based server administration interface:
+
+**URL**: http://localhost:4326  
+**Username**: admin  
+**Password**: Set in `.env` file (`MINECRAFT_WEB_ADMIN_PASSWORD`)
+
+**Features:**
+- Execute server commands remotely
+- View server console output
+- Real-time command execution
+- Secure web interface
 
 ## 📊 Performance Monitoring
 
