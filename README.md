@@ -176,6 +176,21 @@ docker-compose build --no-cache
 docker-compose up -d
 ```
 
+### Server Wipe
+```bash
+# Complete server wipe (DANGEROUS!)
+./scripts/wipe-server.sh
+
+# What it does:
+# - Stops the running server container
+# - Deletes ALL world data (world/, world_nether/, world_the_end/)
+# - Cleans server-side world directories
+# - Sets proper permissions (777) on world, config, logs directories
+# - Optional: Clean server logs
+```
+
+**⚠️ Warning**: The wipe script will completely destroy your world! Always backup before running.
+
 ## 📊 Performance Monitoring
 
 ### Health Checks
