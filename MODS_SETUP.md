@@ -38,7 +38,6 @@ The server requires exactly 35 mods for **NeoForge 1.21.1**. All mods must be co
 - `XaerosWorldMap_1.39.9_NeoForge_1.21.jar`
 - `supplementaries-1.21-3.3.4-neoforge.jar`
 - `disenchanting_table-merged-1.21.9-5.1.1.jar`
-- `bedrespawn-1.0-SNAPSHOT.jar`
 
 ### 🎨 Visual & UI
 - `curios-neoforge-9.0.15+1.21.1.jar`
