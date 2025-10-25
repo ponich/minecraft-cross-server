@@ -2,9 +2,9 @@
 
 Since mods are large binary files (*.jar), they are excluded from Git tracking via `.gitignore`. Follow these instructions to set up mods for development and deployment.
 
-## 📦 Required Mods (32 total)
+## 📦 Required Mods (35 total)
 
-The server requires exactly 32 mods for **NeoForge 1.21.1**. All mods must be compatible with **NeoForge build 21.1.169**.
+The server requires exactly 35 mods for **NeoForge 1.21.1**. All mods must be compatible with **NeoForge build 21.1.169**.
 
 ### 🔧 Core & Performance Mods
 - `accessories-neoforge-1.1.0-beta.43+1.21.1.jar`
@@ -37,6 +37,8 @@ The server requires exactly 32 mods for **NeoForge 1.21.1**. All mods must be co
 - `Xaeros_Minimap_25.2.6_NeoForge_1.21.jar`
 - `XaerosWorldMap_1.39.9_NeoForge_1.21.jar`
 - `supplementaries-1.21-3.3.4-neoforge.jar`
+- `disenchanting_table-merged-1.21.9-5.1.1.jar`
+- `bedrespawn-1.0-SNAPSHOT.jar`
 
 ### 🎨 Visual & UI
 - `curios-neoforge-9.0.15+1.21.1.jar`
@@ -49,6 +51,7 @@ The server requires exactly 32 mods for **NeoForge 1.21.1**. All mods must be co
 - `owo-lib-neoforge-0.12.15.1-beta.6+1.21.jar`
 - `moonlight-1.21-2.19.5-neoforge.jar`
 - `titanium-1.21-4.0.37.jar`
+- `monolib-neoforge-1.21.1-2.1.0.jar`
 
 ## 🚀 Setup Instructions
 
@@ -63,14 +66,14 @@ The server requires exactly 32 mods for **NeoForge 1.21.1**. All mods must be co
    ```bash
    # From parent directory with mod files
    cp "../моды на сервер"/*.jar mods/
-   
-   # Or manually download and place 32 jar files in mods/
+
+   # Or manually download and place 35 jar files in mods/
    ```
 
 3. **Verify mod count**:
    ```bash
    ls mods/*.jar | wc -l
-   # Should output: 32
+   # Should output: 35
    ```
 
 ### For Production/CI

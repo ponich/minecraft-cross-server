@@ -1,11 +1,11 @@
 # NeoForge Modded Minecraft Server
 
-A fully containerized Minecraft server running **NeoForge 1.21.1** with **32 carefully selected mods** for an enhanced gaming experience.
+A fully containerized Minecraft server running **NeoForge 1.21.1** with **35 carefully selected mods** for an enhanced gaming experience.
 
 ## 🎮 Server Features
 
 - **NeoForge 1.21.1** (build 21.1.169)
-- **32 Performance & Content Mods** pre-installed
+- **35 Performance & Content Mods** pre-installed
 - **Optimized JVM settings** for modded servers
 - **Docker Compose** for easy deployment
 - **Persistent data** with Docker volumes
@@ -14,7 +14,7 @@ A fully containerized Minecraft server running **NeoForge 1.21.1** with **32 car
 
 ## 📦 Installed Mods
 
-The server includes 32 mods across different categories:
+The server includes 35 mods across different categories:
 
 ### 🔧 Core & Performance
 - **NeoForge** - Mod loader framework
@@ -40,6 +40,8 @@ The server includes 32 mods across different categories:
 - **Jade** - Advanced tooltips (WAILA/HWYLA successor)
 - **Xaero's Minimap** & **World Map** - Navigation tools
 - **Supplementaries** - Decorative blocks and utilities
+- **Disenchanting Table** - Remove enchantments from items
+- **Bed Respawn** - Improved bed respawn mechanics
 
 ### 🎨 Visual & UI
 - **Curios** & **Accessories** - Equipment slots system
@@ -52,6 +54,7 @@ The server includes 32 mods across different categories:
 - **OWO Lib** - Library for modern UI
 - **Moonlight** - Utility library
 - **Titanium** - Framework library
+- **MonoLib** - Shared library for multiple mods
 
 ## 🚀 Quick Start
 
@@ -119,7 +122,7 @@ repo/
 ├── Dockerfile           # Custom server image
 ├── server.properties    # Server configuration
 ├── eula.txt            # EULA agreement
-├── mods/               # Server mods (32 files) - NOT tracked in Git
+├── mods/               # Server mods (35 files) - NOT tracked in Git
 ├── config/             # Mod configurations
 ├── world/              # World data (persistent) - NOT tracked in Git
 ├── logs/               # Server logs - NOT tracked in Git
@@ -137,7 +140,7 @@ The project includes proper Git configuration:
 
 - **`.gitignore`**: Excludes large binary files (mods), runtime data (world, logs), and temporary files
 - **`.gitattributes`**: Ensures proper handling of text vs binary files and line endings
-- **Mods not tracked**: The `mods/` directory with 32 jar files is excluded from Git - see `MODS_SETUP.md`
+- **Mods not tracked**: The `mods/` directory with 35 jar files is excluded from Git - see `MODS_SETUP.md`
 
 ## 🔧 Management Commands
 
@@ -266,7 +269,7 @@ This modpack has been **professionally analyzed** for stability and performance.
 #### ⚠️ **Watch Points**
 - **ScalableCatsForce** (16MB) - monitor for stability issues
 - **Magic mod conflicts** - Iron's Spellbooks vs Aether systems
-- **Memory usage** - 32 mods require careful monitoring
+- **Memory usage** - 35 mods require careful monitoring
 - **Mekanism radiation** - can impact performance (configurable)
 
 #### 🔧 **Performance Monitoring**
